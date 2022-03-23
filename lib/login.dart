@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'register.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -22,8 +24,8 @@ class _Login extends State<Login> {
   }
 
   Column loginStructure() {
-    TextEditingController emailController = new TextEditingController();
-    TextEditingController pswController = new TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController pswController = TextEditingController();
     return Column(
       children: <Widget>[
         const Text(
@@ -43,7 +45,15 @@ class _Login extends State<Login> {
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     decorationColor: Theme.of(context).colorScheme.primary,
-                  )),
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Register()),
+                      );
+                    }),
             ],
           ),
         ),
@@ -87,19 +97,34 @@ class _Login extends State<Login> {
   }
 
   void authenticate(String username, String password) async {
-    String uri = 'http://10.0.2.2:3000/api/users/'+username+'/'+password;
-    print(uri);
-    final response = await http
-        .get(Uri.parse(uri));
-
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      print(response.body);
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Please do not leave the email or password empty')));
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      print("Backend server error");
+      String uri =
+          'http://10.0.2.2:3000/api/users/' + username + '/' + password;
+      final response = await http.get(Uri.parse(uri));
+
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+
+        
+        if (response.body.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Wrong username or password')));
+        }
+        else{
+         ScaffoldMessenger.of(context).showSnackBar(
+           const SnackBar(content: Text('Succesfull login!!')));
+          
+        }
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Backend server error')));
+      }
     }
   }
 }
