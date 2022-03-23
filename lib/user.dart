@@ -11,10 +11,10 @@ abstract class User{
 
 class UserSupervisor extends User{
   
-  late num timesCheckedSurveys;
+  late String lastSurvey;
 
    UserSupervisor(Map<String, dynamic> data) : super(data){
-    timesCheckedSurveys = data['surveyAmmount'];
+    lastSurvey = data['lastSurvey'];
     super.name = data['name'];
     super.email = data['email'];
     super.coorporation = data['coorporation'];
@@ -25,14 +25,14 @@ class UserSupervisor extends User{
 
 class UserEmployee extends User{
   
-  late num activeBreakCount;
-  late num pExcerciseCount;
-  late num healthSurveyCount;
+  late String lastActiveBreak;
+  late String lastP_Exercise;
+  late String lastE_Survey;
 
   UserEmployee(Map<String, dynamic> data) : super(data){
-    activeBreakCount = data['activeBreakCount'];
-    pExcerciseCount = data['pExcerciseCount'];
-    healthSurveyCount = data['healthSurveyCount'];
+    lastActiveBreak = data['lastActiveBreak'];
+    lastP_Exercise = data['lastP_Exercise'];
+    lastE_Survey = data['lastE_Survey'];
     super.name = data['name'];
     super.email = data['email'];
     super.coorporation = data['coorporation'];

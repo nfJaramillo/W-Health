@@ -236,7 +236,7 @@ class _Supervisor extends State<Supervisor> {
   }
 
   void reviewHealthSurveys() {
-    http.post( Uri.parse('http://10.0.2.2:3000/api/users/survey/'+widget.user.email));
+    http.post( Uri.parse('http://10.0.2.2:3000/api/users/lastSurvey/'+widget.user.email));
   }
 
   void logOut(){
