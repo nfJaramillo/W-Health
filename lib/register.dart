@@ -191,10 +191,10 @@ class _Register extends State<Register> {
           'password': password,
           'corporation': corporation,
           'isSupervisor': isSupervisor,
-          'surveyAmmount': 0,
-          'activeBreakCount': 0,
-          'pExcerciseCount': 0,
-          'healthSurveyCount': 0
+          'lastSurvey':  "",
+          'lastActiveBreak': "",
+          'lastP_Exercise': "",
+          'lastE_Survey': ""
 
         }),
       );
