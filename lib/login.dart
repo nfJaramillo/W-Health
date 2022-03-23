@@ -124,7 +124,7 @@ class _Login extends State<Login> {
             Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Supervisor()),
+                            builder: (context) =>  Supervisor(user)),
                       );
           }
           else{
