@@ -120,7 +120,7 @@ class _Register extends State<Register> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            SizedBox(width: 50),
+            const SizedBox(width: 50),
             Flexible(
               child: ListTile(
                 title: const Text("Yes"),
