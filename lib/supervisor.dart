@@ -38,7 +38,7 @@ class _Supervisor extends State<Supervisor> {
           height: 60,
           color: Colors.black12,
           child: InkWell(
-            onTap: () => print('tap on close'),
+            onTap: () => logOut(),
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Column(
@@ -235,6 +235,10 @@ class _Supervisor extends State<Supervisor> {
   }
 
   void reviewHealthSurveys() {}
+
+  void logOut(){
+    Navigator.pop(context);
+  }
 
   void getTotalemployees() async {
     totalEmployees = "-";
