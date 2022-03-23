@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:w_health/employee.dart';
+import 'package:w_health/supervisor.dart';
 import 'register.dart';
 
 class Login extends StatefulWidget {
@@ -41,7 +45,7 @@ class _Login extends State<Login> {
             style: const TextStyle(fontSize: 20),
             children: <TextSpan>[
               TextSpan(
-                  text: 'Sing In here',
+                  text: 'Sing Up here',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     decorationColor: Theme.of(context).colorScheme.primary,
@@ -115,8 +119,21 @@ class _Login extends State<Login> {
               const SnackBar(content: Text('Wrong username or password')));
         }
         else{
-         ScaffoldMessenger.of(context).showSnackBar(
-           const SnackBar(content: Text('Succesfull login!!')));
+          Map<String, dynamic> user = jsonDecode(response.body);
+          if(('${user['isSupervisor']}') == 'yes'){
+            Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Supervisor()),
+                      );
+          }
+          else{
+            Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Employee()),
+                      );
+          }
           
         }
       } else {

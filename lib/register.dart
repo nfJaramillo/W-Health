@@ -193,6 +193,9 @@ class _Register extends State<Register> {
           'isSupervisor': isSupervisor
         }),
       );
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sing up was successful')));
+      Navigator.pop(context);
     }
   }
 }
