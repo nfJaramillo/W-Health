@@ -234,7 +234,9 @@ class _Supervisor extends State<Supervisor> {
     );
   }
 
-  void reviewHealthSurveys() {}
+  void reviewHealthSurveys() {
+    http.post( Uri.parse('http://10.0.2.2:3000/api/users/survey/''${widget.user['email']}'));
+  }
 
   void logOut(){
     Navigator.pop(context);
