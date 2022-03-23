@@ -185,12 +185,17 @@ class _Register extends State<Register> {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
+        body: jsonEncode({
           'name': name,
           'email': email,
           'password': password,
           'corporation': corporation,
-          'isSupervisor': isSupervisor
+          'isSupervisor': isSupervisor,
+          'surveyAmmount': 0,
+          'activeBreakCount': 0,
+          'pExcerciseCount': 0,
+          'healthSurveyCount': 0
+
         }),
       );
       ScaffoldMessenger.of(context).showSnackBar(

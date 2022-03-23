@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:w_health/user.dart';
 
 class Supervisor extends StatefulWidget {
-  final Map<String, dynamic> user;
+  final UserSupervisor user;
   const Supervisor(this.user, {Key? key}) : super(key: key);
 
   @override
@@ -235,7 +236,7 @@ class _Supervisor extends State<Supervisor> {
   }
 
   void reviewHealthSurveys() {
-    http.post( Uri.parse('http://10.0.2.2:3000/api/users/survey/''${widget.user['email']}'));
+    http.post( Uri.parse('http://10.0.2.2:3000/api/users/survey/'+widget.user.email));
   }
 
   void logOut(){
@@ -245,7 +246,7 @@ class _Supervisor extends State<Supervisor> {
   void getTotalemployees() async {
     totalEmployees = "-";
     String uri =
-          'http://10.0.2.2:3000/api/users/''${widget.user['coorporation']}';
+          'http://10.0.2.2:3000/api/users/'+widget.user.coorporation;
       final response = await http.get(Uri.parse(uri));
 
       if (response.statusCode == 200) {
