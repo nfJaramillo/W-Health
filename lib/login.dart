@@ -122,7 +122,6 @@ class _Login extends State<Login> {
         else{
           Map<String, dynamic> userData = jsonDecode(response.body);
           var userSuper = UserSupervisor(userData);
-          var userEmplo = UserEmployee(userData);
           if(userSuper.isSupervisor == 'yes'){
             Navigator.push(
                         context,
@@ -131,6 +130,7 @@ class _Login extends State<Login> {
                       );
           }
           else{
+            var userEmplo = UserEmployee(userData);
             Navigator.push(
                         context,
                         MaterialPageRoute(

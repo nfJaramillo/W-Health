@@ -26,8 +26,6 @@ class _Employee extends State<Employee> {
   @override
     void initState() {
     super.initState();
-     getLastActivePause();
-     getName();
   }
 
   @override
@@ -79,10 +77,21 @@ class _Employee extends State<Employee> {
       
       children: <Widget>[
           Text(
-            name,
+            widget.user.name,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 50),
           ),
+          SizedBox(height: 30),
+          Image(image: AssetImage('assets/images/profilePP.png'),
+            width: 100,
+            height: 200,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: 30),
+          Text(
+            'HOOHOHOH ' + widget.user.lastActiveBreak,
+            style: TextStyle(fontSize: 20),
+            ),
           SizedBox(height: 30),
           MaterialButton(
             elevation: 10.0,
@@ -92,7 +101,7 @@ class _Employee extends State<Employee> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
-            onPressed: () {  },
+            onPressed: () { lastActiveBreakTime(); },
             child: Text(
               'Do Active Break',
               style: TextStyle(
@@ -111,7 +120,7 @@ class _Employee extends State<Employee> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
-            onPressed: () {  },
+            onPressed: () { lastPersonalizedExercise(); },
             child: Text(
               'Personalized Exercise',
               style: TextStyle(
@@ -130,7 +139,7 @@ class _Employee extends State<Employee> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
-            onPressed: () {  },
+            onPressed: () { lastHealthSurvey(); },
             child: Text(
               'Health Survey',
               style: TextStyle(
@@ -149,52 +158,21 @@ class _Employee extends State<Employee> {
     Navigator.pop(context);
   }
 
-  void getName() async {
-    name = "-";
-    String uri =
-          'http://10.0.2.2:3000/api/users/'+widget.user.name;
-      final response = await http.get(Uri.parse(uri));
-
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-
-        
-        if (response.body.isNotEmpty) {
-           Map<String, dynamic> users = jsonDecode(response.body);
-           name = users['users'].length.toString();
-           setState(() {});
-        }
-        } else {
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Backend server error')));
-      }
+  void calculateTime() {
+    
   }
 
-  void getLastActivePause() async {
-    lastActivePause = "-";
-
-    String uri =
-          'http://10.0.2.2:3000/api/users/'+widget.user.lastActiveBreak;
-      final response = await http.get(Uri.parse(uri));
-
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-
-        
-        if (response.body.isNotEmpty) {
-           Map<String, dynamic> users = jsonDecode(response.body);
-           lastActivePause = users['users'].length.toString();
-           setState(() {});
-        }
-        } else {
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Backend server error')));
-      }
+  void lastActiveBreakTime(){
+    http.post(Uri.parse('http://10.0.2.2:3000/api/users/lastActiveBreak/'+widget.user.email));
   }
+
+  void lastPersonalizedExercise(){
+    http.post(Uri.parse('http://10.0.2.2:3000/api/users/lastP_Exercise/'+widget.user.email));
+  }
+
+  void lastHealthSurvey(){
+    http.post(Uri.parse('http://10.0.2.2:3000/api/users/lastE_Survey/'+widget.user.email));
+  }
+
+  
 }
