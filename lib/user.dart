@@ -1,6 +1,9 @@
-abstract class User{
+import 'package:flutter/cupertino.dart';
 
+abstract class User{
+  @protected
   late String name;
+  
   late String email;
   late String coorporation;
   late String isSupervisor;
