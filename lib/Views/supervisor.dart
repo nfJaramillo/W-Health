@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:w_health/user.dart';
+import 'package:w_health/Elements/user.dart';
 
 class Supervisor extends StatefulWidget {
   final UserSupervisor user;

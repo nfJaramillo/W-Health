@@ -1,13 +1,12 @@
 
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use
-import 'dart:io';
+
 
 import 'package:flutter/material.dart';
-import 'package:w_health/personalized.dart';
-import 'package:w_health/user.dart';
+import 'package:w_health/Views/personalized.dart';
+import 'package:w_health/Elements/user.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:image_picker/image_picker.dart'; 
+
 
 
 class Employee extends StatefulWidget {
