@@ -226,17 +226,17 @@ class _Employee extends State<Employee> {
   
 
   void lastActiveBreakTime(){
-    http.post(Uri.parse('http://10.0.2.2:3000/api/users/lastActiveBreak/'+widget.user.email));
+    http.post(Uri.parse('https://w-health-backend.herokuapp.com/api/users/lastActiveBreak/'+widget.user.email));
     _showMyDialog();
   }
 
   void lastPersonalizedExercise(){
-    http.post(Uri.parse('http://10.0.2.2:3000/api/users/lastP_Exercise/'+widget.user.email));
+    http.post(Uri.parse('https://w-health-backend.herokuapp.com/api/users/lastP_Exercise/'+widget.user.email));
     goPersonalized();
   }
 
   void lastHealthSurvey(){
-    http.post(Uri.parse('http://10.0.2.2:3000/api/users/lastE_Survey/'+widget.user.email));
+    http.post(Uri.parse('https://w-health-backend.herokuapp.com/api/users/lastE_Survey/'+widget.user.email));
   }
 
   

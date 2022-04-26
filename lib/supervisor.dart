@@ -236,7 +236,7 @@ class _Supervisor extends State<Supervisor> {
   }
 
   void reviewHealthSurveys() {
-    http.post( Uri.parse('http://10.0.2.2:3000/api/users/lastSurvey/'+widget.user.email));
+    http.post( Uri.parse('https://w-health-backend.herokuapp.com/api/users/lastSurvey/'+widget.user.email));
   }
 
   void logOut(){
@@ -246,7 +246,7 @@ class _Supervisor extends State<Supervisor> {
   void getTotalemployees() async {
     totalEmployees = "-";
     String uri =
-          'http://10.0.2.2:3000/api/users/'+widget.user.coorporation;
+          'https://w-health-backend.herokuapp.com/api/users/corpo/'+widget.user.coorporation;
       final response = await http.get(Uri.parse(uri));
 
       if (response.statusCode == 200) {

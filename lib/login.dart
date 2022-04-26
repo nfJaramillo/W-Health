@@ -107,7 +107,7 @@ class _Login extends State<Login> {
           content: Text('Please do not leave the email or password empty')));
     } else {
       String uri =
-          'http://10.0.2.2:3000/api/users/' + username + '/' + password;
+          'https://w-health-backend.herokuapp.com/api/users/auth/' + username + '/' + password;
       final response = await http.get(Uri.parse(uri));
 
       if (response.statusCode == 200) {
