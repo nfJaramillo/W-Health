@@ -180,8 +180,26 @@ class _Register extends State<Register> {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please fill all fields')));
     } else {
-      http.post(
-        Uri.parse('http://10.0.2.2:3000/api/users/'),
+
+       String uri =
+          'https://w-health-backend.herokuapp.com/api/users/email/'+ email;
+      final response = await http.get(Uri.parse(uri));
+
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+
+        
+        if (response.body.isNotEmpty) {
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('There is already a user registered with that email')));
+  
+        }
+        else{
+
+          http.post(
+        Uri.parse('https://w-health-backend.herokuapp.com/api/users/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -201,6 +219,23 @@ class _Register extends State<Register> {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Sing up was successful')));
       Navigator.pop(context);
+
+        }
+        } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Backend server error')));
+      }
+
+
+
+
+
+
+
+
+      
     }
   }
 }
