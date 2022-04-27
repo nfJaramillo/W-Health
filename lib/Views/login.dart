@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:w_health/employee.dart';
-import 'package:w_health/supervisor.dart';
-import 'package:w_health/user.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:w_health/Views/supervisor.dart';
+
+import '../Controllers/UserController.dart';
+import '../Elements/user.dart';
+import 'employee.dart';
 import 'register.dart';
 
 class Login extends StatefulWidget {
@@ -18,6 +18,8 @@ class Login extends StatefulWidget {
 class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
+    UserController.setLoginView(this);
+
     return Scaffold(
         body: Center(
       child: ListView(
@@ -78,6 +80,7 @@ class _Login extends State<Login> {
         ),
         TextField(
           controller: pswController,
+          obscureText: true,
           decoration: const InputDecoration(
             labelText: "Password",
             labelStyle: TextStyle(fontSize: 20),
@@ -101,50 +104,35 @@ class _Login extends State<Login> {
     );
   }
 
-  void authenticate(String username, String password) async {
-    if (username.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Please do not leave the email or password empty')));
+  void authenticate(String username, String password) {
+    try {
+      context.loaderOverlay.show();
+      UserController.logIn(username, password);
+    } catch (e) {
+      context.loaderOverlay.hide();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
+  void showSnackBar(String message) {
+    context.loaderOverlay.hide();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  void authtenticated(User pUser) {
+    context.loaderOverlay.hide();
+    if (pUser.isSupervisor == 'yes') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Supervisor( pUser as UserSupervisor)),
+      );
     } else {
-      String uri =
-          'https://w-health-backend.herokuapp.com/api/users/auth/' + username + '/' + password;
-      final response = await http.get(Uri.parse(uri));
-
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-
-        
-        if (response.body.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Wrong username or password')));
-        }
-        else{
-          Map<String, dynamic> userData = jsonDecode(response.body);
-          var userSuper = UserSupervisor(userData);
-          if(userSuper.isSupervisor == 'yes'){
-            Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  Supervisor(userSuper)),
-                      );
-          }
-          else{
-            var userEmplo = UserEmployee(userData);
-            Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  Employee(userEmplo)),
-                      );
-          }
-          
-        }
-      } else {
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Backend server error')));
-      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Employee(pUser as UserEmployee)),
+      );
     }
   }
 }

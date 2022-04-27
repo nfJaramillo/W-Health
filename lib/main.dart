@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:w_health/login.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:w_health/Views/login.dart';
 
 void main() {
   runApp(const Whealth());
@@ -17,7 +18,7 @@ class Whealth extends  StatelessWidget {
 
         colorScheme: _customColorScheme,
         ),
-      home: const Login(),
+      home: const LoaderOverlay(child: Login())
     );
   }
 }

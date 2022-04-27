@@ -89,6 +89,7 @@ class _Register extends State<Register> {
         ),
         TextField(
           controller: pswController,
+          obscureText: true,
           decoration: const InputDecoration(
             labelText: "Password",
             labelStyle: TextStyle(fontSize: 20),

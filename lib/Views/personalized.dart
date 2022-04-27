@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:w_health/user.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Personalized extends StatefulWidget {

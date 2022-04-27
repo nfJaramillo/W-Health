@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:w_health/user.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:w_health/Elements/user.dart';
+import 'package:w_health/Views/totalEmployees.dart';
 
 class Supervisor extends StatefulWidget {
   final UserSupervisor user;
@@ -13,17 +15,14 @@ class Supervisor extends StatefulWidget {
 }
 
 class _Supervisor extends State<Supervisor> {
-   
-
+  Map<String, dynamic> totalEmployeesList = {};
   String totalEmployees = '';
 
   @override
-    void initState() {
+  void initState() {
     super.initState();
-     getTotalemployees();
-  } 
-  
-
+    getTotalemployees();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,28 +86,34 @@ class _Supervisor extends State<Supervisor> {
         const SizedBox(
           height: 15,
         ),
-        Row(
-          children: <Widget>[
-            const SizedBox(width: 50),
-            Expanded(
-              child: Icon(
-                Icons.account_circle,
-                color: Theme.of(context).colorScheme.primary,
-                size: 40.0,
-                semanticLabel: 'Icon for total employees',
+        GestureDetector(
+          onTap: () {
+            loadTotalEmployeesView();
+          },
+      
+          
+          child: Row(
+            children: <Widget>[
+              const SizedBox(width: 50),
+              Expanded(
+                child: Icon(
+                  Icons.account_circle,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 40.0,
+                  semanticLabel: 'Icon for total employees',
+                ),
               ),
-            ),
-             Expanded(
-              child: Text(
-                totalEmployees,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 30),
+              Expanded(
+                child: Text(
+                  totalEmployees,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 30),
+                ),
               ),
-            ),
-            const SizedBox(width: 50),
-          ],
+              const SizedBox(width: 50),
+            ],
+          ),
         ),
-
         // Active employees
 
         const SizedBox(
@@ -236,35 +241,42 @@ class _Supervisor extends State<Supervisor> {
   }
 
   void reviewHealthSurveys() {
-    http.post( Uri.parse('https://w-health-backend.herokuapp.com/api/users/lastSurvey/'+widget.user.email));
+    http.post(Uri.parse(
+        'https://w-health-backend.herokuapp.com/api/users/lastSurvey/' +
+            widget.user.email));
   }
 
-  void logOut(){
+  void logOut() {
     Navigator.pop(context);
   }
 
   void getTotalemployees() async {
     totalEmployees = "-";
-    String uri =
-          'https://w-health-backend.herokuapp.com/api/users/corpo/'+widget.user.coorporation;
-      final response = await http.get(Uri.parse(uri));
+    String uri = 'https://w-health-backend.herokuapp.com/api/users/corpo/' +
+        widget.user.coorporation;
+    final response = await http.get(Uri.parse(uri));
 
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
 
-        
-        if (response.body.isNotEmpty) {
-           Map<String, dynamic> users = jsonDecode(response.body);
-           totalEmployees = users['users'].length.toString();
-           setState(() {});
-        }
-        } else {
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Backend server error')));
+      if (response.body.isNotEmpty) {
+        Map<String, dynamic> users = jsonDecode(response.body);
+        totalEmployeesList = users;
+        totalEmployees = users['users'].length.toString();
+        setState(() {});
       }
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Backend server error')));
+    }
+  }
 
+  void loadTotalEmployeesView(){
+    //context.loaderOverlay.show();
+    Navigator.push(context,MaterialPageRoute(builder: (context) =>  TotalEmployees(totalEmployeesList )));
+    //context.loaderOverlay.hide();
   }
 }
