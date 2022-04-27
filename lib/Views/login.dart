@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:w_health/Views/supervisor.dart';
 
 import '../Controllers/UserController.dart';
@@ -105,19 +106,23 @@ class _Login extends State<Login> {
 
   void authenticate(String username, String password) {
     try {
+      context.loaderOverlay.show();
       UserController.logIn(username, password);
     } catch (e) {
+      context.loaderOverlay.hide();
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
   void showSnackBar(String message) {
+    context.loaderOverlay.hide();
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
   void authtenticated(User pUser) {
+    context.loaderOverlay.hide();
     if (pUser.isSupervisor == 'yes') {
       Navigator.push(
         context,
