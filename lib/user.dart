@@ -3,13 +3,11 @@ import 'package:flutter/cupertino.dart';
 abstract class User{
   @protected
   late String name;
-  
   late String email;
   late String coorporation;
   late String isSupervisor;
 
   User(Map<String, dynamic> data);
-
 }
 
 class UserSupervisor extends User{

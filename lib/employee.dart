@@ -1,13 +1,10 @@
 
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:w_health/active_break.dart';
 import 'package:w_health/personalized.dart';
 import 'package:w_health/user.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:image_picker/image_picker.dart'; 
+
 
 
 class Employee extends StatefulWidget {
@@ -85,13 +82,26 @@ class _Employee extends State<Employee> {
             style: TextStyle(fontSize: 50),
           ),
           SizedBox(height: 30),
-         Icon(
-                Icons.groups,
-                color: Theme.of(context).colorScheme.primary,
-                size: 200.0,
-                semanticLabel: 'Icon for active employees',
-              ),
-          SizedBox(height: 30),
+          /*ProfileWidget(
+                  imagePath: UserEmployee.imagePath,
+                  isEdit: true,
+                  onClicked: () async {
+                    final image = await ImagePicker()
+                        .getImage(source: ImageSource.gallery);
+
+                    if (image == null) return;
+
+                    final directory = await getApplicationDocumentsDirectory();
+                    final name = basename(image.path);
+                    final imageFile = File('${directory.path}/$name');
+                    final newImage =
+                        await File(image.path).copy(imageFile.path);
+
+                    setState(() => user = user.copy(imagePath: newImage.path));
+                  },
+                ),
+                */
+          SizedBox(height: 20),
           Text(
               'You should take an active break in ' + calculateTime().toString() + ' minutes',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -170,6 +180,14 @@ class _Employee extends State<Employee> {
       );
   }
 
+  void goActiveBreak(){
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) =>  ActiveBreak())
+      );
+  }
+
   int calculateTime() {
     DateTime dateLastBreak = DateTime.parse(widget.user.lastActiveBreak);
     DateTime dateNow = DateTime.now();
@@ -215,6 +233,7 @@ class _Employee extends State<Employee> {
             child: const Text('Sure',  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0,)),
             onPressed: () {
               Navigator.of(context).pop();
+              goActiveBreak();
             },
           ),
         ],
@@ -239,5 +258,7 @@ class _Employee extends State<Employee> {
     http.post(Uri.parse('http://10.0.2.2:3000/api/users/lastE_Survey/'+widget.user.email));
   }
 
+
+  
   
 }
