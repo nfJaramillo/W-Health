@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:w_health/Views/personalized.dart';
+import 'package:w_health/Views/active_break.dart';
 import 'package:w_health/Elements/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -169,6 +170,14 @@ class _Employee extends State<Employee> {
       );
   }
 
+  void goActiveBreak(){
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) =>  ActiveBreak())
+      );
+  }
+
   int calculateTime() {
     DateTime dateLastBreak = DateTime.parse(widget.user.lastActiveBreak);
     DateTime dateNow = DateTime.now();
@@ -214,6 +223,7 @@ class _Employee extends State<Employee> {
             child: const Text('Sure',  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0,)),
             onPressed: () {
               Navigator.of(context).pop();
+              goActiveBreak();
             },
           ),
         ],
