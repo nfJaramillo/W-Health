@@ -17,6 +17,7 @@ class Supervisor extends StatefulWidget {
 class _Supervisor extends State<Supervisor> {
   Map<String, dynamic> totalEmployeesList = {};
   String totalEmployees = '';
+  bool loading = true;
 
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _Supervisor extends State<Supervisor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+        body: loading? Center(child: CircularProgressIndicator()): SafeArea(
           child: ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -251,10 +252,12 @@ class _Supervisor extends State<Supervisor> {
   }
 
   void getTotalemployees() async {
+    
     totalEmployees = "-";
     String uri = 'https://w-health-backend.herokuapp.com/api/users/corpo/' +
         widget.user.coorporation;
     final response = await http.get(Uri.parse(uri));
+    
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -264,6 +267,7 @@ class _Supervisor extends State<Supervisor> {
         Map<String, dynamic> users = jsonDecode(response.body);
         totalEmployeesList = users;
         totalEmployees = users['users'].length.toString();
+        loading = false;
         setState(() {});
       }
     } else {
