@@ -22,7 +22,7 @@ class _Register extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+        body: SafeArea(
       child: ListView(
         shrinkWrap: true,
         padding: const EdgeInsets.symmetric(horizontal: 20),

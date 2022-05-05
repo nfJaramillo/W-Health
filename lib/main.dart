@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:w_health/Views/login.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+    SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Color(0xFFFAFAFA),
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark 
+    ),
+  );
   runApp(const Whealth());
 }
 
 class Whealth extends  StatelessWidget {
   const Whealth({ Key? key }) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +28,7 @@ class Whealth extends  StatelessWidget {
 
         colorScheme: _customColorScheme,
         ),
-      home: const LoaderOverlay(child: Login())
+      home: const LoaderOverlay(child: SafeArea( child: Login()))
     );
   }
 }
