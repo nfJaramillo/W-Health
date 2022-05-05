@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 
 class TotalEmployees extends StatefulWidget {
@@ -11,18 +9,11 @@ class TotalEmployees extends StatefulWidget {
   State<TotalEmployees> createState() => _TotalEmployees();
 }
 
-
 class _TotalEmployees extends State<TotalEmployees> {
-
-  
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: LoaderOverlay(
-          child: totalEmployeesStructure()
-        ),
-        
-        
+        body: totalEmployeesStructure(),
         bottomNavigationBar: Container(
           height: 60,
           color: Colors.black12,
@@ -44,41 +35,45 @@ class _TotalEmployees extends State<TotalEmployees> {
         ));
   }
 
-  SingleChildScrollView totalEmployeesStructure() {
-    return SingleChildScrollView(
-    physics: const ScrollPhysics(),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        const Text(
-          "Total employees",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 40),
-        ),
-        Divider(
-          height: 20,
-          thickness: 2,
-          indent: 20,
-          endIndent: 20,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+  ListView totalEmployeesStructure() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: widget.totalEmployeesList['users'].length,
+      itemBuilder: (context, index) {
+        return Column(children: [
+          if (index == 0)
+            ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                ),
+                title: Row(
+                  children: const [
+                    Expanded(
+                        child: Text("EMAIL")),
+                    Expanded(
+                        child: Text("NAME")),
+                  ],
+                )),
 
-        const SizedBox(
-          height: 20,
-        ),
-    
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount:  widget.totalEmployeesList['users'].length,
-          itemBuilder: (context,index){
-            return  ListTile(
-              title: Text(widget.totalEmployeesList['users'][index]["email"]),
-            );
-          },
-        )
-      ]
-    ));
+          ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.blue,
+                child:
+                    Text(widget.totalEmployeesList['users'][index]["name"][0]),
+              ),
+              title: Row(
+                children: [
+                  Expanded(
+                      child: Text(
+                          widget.totalEmployeesList['users'][index]["email"])),
+                  Expanded(
+                      child: Text(
+                          widget.totalEmployeesList['users'][index]["name"])),
+                ],
+              ))
+        ]);
+      },
+    );
   }
 
   void logOut() {
