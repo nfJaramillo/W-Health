@@ -257,15 +257,31 @@ class _Supervisor extends State<Supervisor> {
   }
 
   void getTotalemployees() async {
-    if (!await InternetConnectionChecker().hasConnection) {
+    Map<String, dynamic>? storedEmployees = await UserController.getTotalEmployeesLocal(widget.user.coorporation);
+    if(storedEmployees == null)
+    {
+      if (!await InternetConnectionChecker().hasConnection) {
       setState(() {
         totalEmployees = "do not tap";
         loading = false;
       });
-      showSnackBar("There is no internet connection");
+      showSnackBar("There is no internet connection and no cached data, please check your connection before proceding");
     } else {
       UserController.getTotalEmployees(widget.user.coorporation, this);
     }
+    }
+    else{
+      if (!await InternetConnectionChecker().hasConnection) {
+      setTotalEmployees(storedEmployees);
+      showSnackBar("There is no internet connection but cached data, data might be unupdated.");
+    } else {
+      setTotalEmployees(storedEmployees);
+      UserController.getTotalEmployees(widget.user.coorporation, this);
+    }
+
+    }
+    
+   
   }
 
   void setTotalEmployees(pEmployees) {

@@ -29,6 +29,10 @@ class UserController  {
     
   }
 
+  static Future<Map<String, dynamic>?> getTotalEmployeesLocal(coorporation) async {
+    return await ModelUser.getTotalEmployeesLocal(coorporation);
+  }
+
   static void showSnackBarLogin(String message){
     loginView.showSnackBar(message);
   }
@@ -40,6 +44,7 @@ class UserController  {
   static void authtenticated(pUser){
     loginView.authtenticated(pUser);
   }
+
 
 }
 
