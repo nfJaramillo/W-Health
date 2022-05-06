@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:w_health/Views/supervisor.dart';
-
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../Controllers/UserController.dart';
 import '../Elements/user.dart';
 import 'employee.dart';
@@ -16,6 +18,16 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
+
+  bool enabled = true;
+
+
+  @override
+  void initState()  {
+    super.initState();
+    checkIfUserExists();
+  }
+
   @override
   Widget build(BuildContext context) {
     UserController.setLoginView(this);
@@ -93,10 +105,10 @@ class _Login extends State<Login> {
         ElevatedButton(
           child: const Text("Log in"),
           onPressed: () =>
-              {authenticate(emailController.text, pswController.text)},
+              {enabled? authenticate(emailController.text, pswController.text, false): null},
           style: ElevatedButton.styleFrom(
             textStyle: const TextStyle(fontSize: 20),
-            primary: Theme.of(context).colorScheme.primary,
+            primary: enabled? Theme.of(context).colorScheme.primary: Colors.grey,
             minimumSize: const Size.fromHeight(50),
           ),
         ),
@@ -104,10 +116,43 @@ class _Login extends State<Login> {
     );
   }
 
-  void authenticate(String username, String password) {
+  void checkIfUserExists() async{
+    final prefs = await SharedPreferences.getInstance();
+    String? savedUser = prefs.getString("user");
+    if(savedUser != null){
+      Map<String, dynamic> userData = jsonDecode(savedUser);
+      var userSuper = UserSupervisor(userData);
+      if(await InternetConnectionChecker().hasConnection)
+      {
+        showSnackBar("There is internet connection");
+        authenticate(userSuper.email, "",true);
+      }
+      else{
+        showSnackBar("There is no internet connection");
+        if (userSuper.isSupervisor == 'yes') {
+          authtenticated(userSuper);
+        } else {
+          var userEmplo = UserEmployee(userData);
+          UserController.authtenticated(userEmplo);
+        }
+        
+      }
+    }
+    else{
+      if(! await InternetConnectionChecker().hasConnection)
+      {
+        setState(() {
+          enabled = false;
+        });
+        showSnackBar("There is no internet connection and no cached data, please check your connection before proceding");
+      }
+    }
+  }
+
+  void authenticate(String username, String password, bool isReLogin) {
     try {
       context.loaderOverlay.show();
-      UserController.logIn(username, password);
+      UserController.logIn(username, password, isReLogin);
     } catch (e) {
       context.loaderOverlay.hide();
       ScaffoldMessenger.of(context)
