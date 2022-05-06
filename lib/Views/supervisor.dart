@@ -250,7 +250,7 @@ class _Supervisor extends State<Supervisor> {
             widget.user.email));
   }
 
-  void logOut() async{
+  void logOut() {
     UserController.logOut(widget.user.coorporation);
     Navigator.pop(context);
   }
