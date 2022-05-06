@@ -42,3 +42,4 @@ List<Exercise> exerciseList = [
       imageUrl:
           urlImages[2])
 ];
+

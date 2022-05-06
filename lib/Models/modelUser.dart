@@ -2,6 +2,7 @@ import 'dart:convert';
 import '../Controllers/UserController.dart';
 import 'package:w_health/Elements/user.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
 
 class ModelUser {
   static User? user;
@@ -20,7 +21,7 @@ class ModelUser {
       }
       catch(e){
         rethrow;
-      }
+      }                                                               
       
 
     }
@@ -51,4 +52,5 @@ class ModelUser {
       UserController.showSnackBarLogin('Backend server error');
     }
   }
+
 }

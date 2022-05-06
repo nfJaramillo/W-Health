@@ -12,10 +12,10 @@ class ExerciseDetailsScreen extends StatelessWidget {
      Size size = MediaQuery.of(context).size;
 
      return Scaffold(
+       
       backgroundColor: Colors.white,
       body: 
-      Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      ListView(
       children: <Widget>[
          Container(
            height: size.height * 0.4,
@@ -130,42 +130,5 @@ class ExerciseDetailsScreen extends StatelessWidget {
     
     
     
-    
-    
-    
-    
-    /*return Scaffold(
-      appBar: AppBar(
-        title: Text(exercise.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CachedNetworkImage(
-                imageUrl: exercise.imageUrl,
-                progressIndicatorBuilder: (context, url, downloadProgress) => 
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-                height: 300,
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child:
-                Text(
-                  exercise.description,
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 20.0),
-                ),
-                
-              ),
-            ],
-          ),
-        ),
-      ),
-    );*/
   }
 }

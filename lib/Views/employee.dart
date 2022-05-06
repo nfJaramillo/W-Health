@@ -1,12 +1,11 @@
-
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use
-
-
 import 'package:flutter/material.dart';
 import 'package:w_health/Views/personalized.dart';
 import 'package:w_health/Views/active_break.dart';
 import 'package:w_health/Elements/user.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
+
+import 'package:w_health/Views/settings.dart';
 
 
 
@@ -42,16 +41,17 @@ class _Employee extends State<Employee> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
             ),
-            Icon(Icons.more_vert),
+            IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () {goSettings();},
+              ),
           ],
         ),
-        body: Container(
-          width: double.infinity,
-          color: Colors.white,
-          child: Column(
+        body: ListView(
+          children: <Widget>[ Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[employeeStructure()],
-          ),
+          )]
         ),
         bottomNavigationBar: Container(
           height: 60,
@@ -74,6 +74,8 @@ class _Employee extends State<Employee> {
         )
     );
   }
+
+ 
 
   Column employeeStructure() {
     return Column(
@@ -167,6 +169,14 @@ class _Employee extends State<Employee> {
       context, 
       MaterialPageRoute(
         builder: (context) => Personalized())
+      );
+  }
+
+  void goSettings(){
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => SettingsScreen())
       );
   }
 
