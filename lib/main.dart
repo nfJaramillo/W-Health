@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:w_health/Views/login.dart';
 import 'package:w_health/Elements/preferences_service.dart';
@@ -8,11 +9,20 @@ import 'package:w_health/Models/preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+    SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Color(0xFFFAFAFA),
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark 
+    ),
+  );
   runApp(const Whealth());
 }
 
 class Whealth extends  StatelessWidget {
   const Whealth({ Key? key }) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {

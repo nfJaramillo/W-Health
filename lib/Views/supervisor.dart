@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:w_health/Controllers/userController.dart';
 import 'package:w_health/Elements/user.dart';
 import 'package:w_health/Views/totalEmployees.dart';
 
@@ -17,6 +20,7 @@ class Supervisor extends StatefulWidget {
 class _Supervisor extends State<Supervisor> {
   Map<String, dynamic> totalEmployeesList = {};
   String totalEmployees = '';
+  bool loading = true;
 
   @override
   void initState() {
@@ -27,13 +31,15 @@ class _Supervisor extends State<Supervisor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            children: <Widget>[supervisorStructure()],
-          ),
-        ),
+        body: loading
+            ? Center(child: CircularProgressIndicator())
+            : SafeArea(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  children: <Widget>[supervisorStructure()],
+                ),
+              ),
         bottomNavigationBar: Container(
           height: 60,
           color: Colors.black12,
@@ -90,8 +96,6 @@ class _Supervisor extends State<Supervisor> {
           onTap: () {
             loadTotalEmployeesView();
           },
-      
-          
           child: Row(
             children: <Widget>[
               const SizedBox(width: 50),
@@ -246,37 +250,44 @@ class _Supervisor extends State<Supervisor> {
             widget.user.email));
   }
 
-  void logOut() {
+  void logOut() async{
+     final prefs = await SharedPreferences.getInstance();
+      prefs.remove("user");
     Navigator.pop(context);
   }
 
   void getTotalemployees() async {
-    totalEmployees = "-";
-    String uri = 'https://w-health-backend.herokuapp.com/api/users/corpo/' +
-        widget.user.coorporation;
-    final response = await http.get(Uri.parse(uri));
-
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-
-      if (response.body.isNotEmpty) {
-        Map<String, dynamic> users = jsonDecode(response.body);
-        totalEmployeesList = users;
-        totalEmployees = users['users'].length.toString();
-        setState(() {});
-      }
+    if (!await InternetConnectionChecker().hasConnection) {
+      setState(() {
+        totalEmployees = "do not tap";
+        loading = false;
+      });
+      showSnackBar("There is no internet connection");
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Backend server error')));
+      UserController.getTotalEmployees(widget.user.coorporation, this);
     }
   }
 
-  void loadTotalEmployeesView(){
+  void setTotalEmployees(pEmployees) {
+    setState(() {
+      totalEmployeesList = pEmployees;
+      totalEmployees = pEmployees['users'].length.toString();
+      loading = false;
+    });
+  }
+
+  void loadTotalEmployeesView() {
     //context.loaderOverlay.show();
-    Navigator.push(context,MaterialPageRoute(builder: (context) =>  TotalEmployees(totalEmployeesList )));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TotalEmployees(totalEmployeesList)));
     //context.loaderOverlay.hide();
+  }
+
+  void showSnackBar(String message) {
+    context.loaderOverlay.hide();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 }
