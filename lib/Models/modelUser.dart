@@ -102,4 +102,9 @@ class ModelUser {
   static Future<Map<String, dynamic>?> getTotalEmployeesLocal(coorporation) async {
         return await db.collection(coorporation).doc(id).get();
   }
+
+  static void logOut(coorporation)  {
+    SharedPreferences.getInstance().then((value) => value.remove("user"));
+    db.collection(coorporation).doc(id).delete();
+  }
 }

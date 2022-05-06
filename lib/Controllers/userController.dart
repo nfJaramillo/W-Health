@@ -33,6 +33,10 @@ class UserController  {
     return await ModelUser.getTotalEmployeesLocal(coorporation);
   }
 
+  static void logOut(coorporation) async {
+    return ModelUser.logOut(coorporation);
+  }
+
   static void showSnackBarLogin(String message){
     loginView.showSnackBar(message);
   }
