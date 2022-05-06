@@ -13,8 +13,10 @@ class ExerciseDetailsScreen extends StatelessWidget {
 
      return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-       children: <Widget>[
+      body: 
+      Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
          Container(
            height: size.height * 0.4,
            child: Stack(
@@ -65,27 +67,62 @@ class ExerciseDetailsScreen extends StatelessWidget {
                    Text(
                     "How to do it",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 50),
+                    style: TextStyle(
+                      fontSize: 50,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                     ),
-                  ), 
-                
-
+                  ),
+                 
                ),
-                Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                    exercise.description,
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 20.0),
-                ),
-              ),
-
-              
-
-
              ],
            ),
-         )
+         ),
+         SizedBox(height: 10),
+         Container(
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                     color: Color(0xFF7086B2),
+                     borderRadius: BorderRadius.only(
+                       bottomLeft: Radius.circular(50),
+                       topLeft: Radius.circular(50),
+                       topRight: Radius.circular(50),
+                       bottomRight: Radius.circular(50)
+                     ),
+                ),
+                padding: const EdgeInsets.all(25.0),
+                child:
+                Text(
+                  exercise.description,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white),
+                ),
+              ),
+          Container(
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                     color: Color(0xFFF17105),
+                     borderRadius: BorderRadius.only(
+                       bottomLeft: Radius.circular(50),
+                       topLeft: Radius.circular(50),
+                       topRight: Radius.circular(50),
+                       bottomRight: Radius.circular(50)
+                     ),
+                ),
+                padding: const EdgeInsets.all(25.0),
+                child:
+                Text(
+                  "If you want further guidance visit WikiHow.",
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white
+                    ),
+                ),
+              )
+          
        ],
      )
     );
