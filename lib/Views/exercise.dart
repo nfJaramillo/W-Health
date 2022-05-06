@@ -26,19 +26,20 @@ List<Exercise> exerciseList = [
   Exercise(
       title: 'Stretching',
       description:
-          'Is a form of physical exercise in which a specific muscle or tendon (or muscle group) is deliberately flexed or stretched in order to improve the muscles felt elasticity and achieve comfortable muscle tone.[1] The result is a feeling of increased muscle control, flexibility, and range of motion.',
+          'Gradually and carefully move your body or the limb being stretched into the stretch position. Once you feel slight tension in the muscle, hold the position. Avoid bouncing or any other movements, which could overstretch the muscle and result in injury. Wait 15 seconds and then stretch further.',
       imageUrl:
           urlImages[0]),
   Exercise(
       title: 'Jogging',
       description:
-          'is a form of trotting or running at a slow or leisurely pace.',
+          'Here are the steps to performing Jogging in Place: First start standing with feet hip distance apart.Then lift one foot then the other to jog in place working your legs and increasing your heart rate. Doing this for at least 150 minutes with moderate intensity will help you combat heart disease, diabetes and other chronic diseases.',
       imageUrl: 
           urlImages[1]),
   Exercise(
       title: 'Yoga',
       description:
-          'The ultimate goals of yoga are stilling the mind and gaining insight, resting in detached awareness, and liberation',
+          'The ultimate goals of yoga are stilling the mind and gaining insight, resting in detached awareness, and liberation. We recommend you to try the following yoga poses: Downward-Facing Dog, Mountain Pose, Crescent Lunge and Triangle. Google these poses, they will help, you release stress and thay are easy to do!',
       imageUrl:
           urlImages[2])
 ];
+

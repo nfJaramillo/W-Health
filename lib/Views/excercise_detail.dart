@@ -9,35 +9,126 @@ class ExerciseDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(exercise.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CachedNetworkImage(
-                imageUrl: exercise.imageUrl,
+     Size size = MediaQuery.of(context).size;
+
+     return Scaffold(
+       
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: 
+      ListView(
+      children: <Widget>[
+         Container(
+           height: size.height * 0.4,
+           child: Stack(
+             children: <Widget>[
+               Container(
+                 height: size.height * 0.4 - 50,
+                 child: 
+                 CachedNetworkImage(
+                  imageUrl: exercise.imageUrl,
+                  imageBuilder: (context, imageProvider) => Container(
+                    height: 300,
+                    decoration: BoxDecoration(
+                      borderRadius: 
+                        BorderRadius.only(bottomLeft: Radius.circular(50)),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: imageProvider
+                      ),
+                  ),
+                ),
                 progressIndicatorBuilder: (context, url, downloadProgress) => 
                     CircularProgressIndicator(value: downloadProgress.progress),
                 errorWidget: (context, url, error) => Icon(Icons.error),
-                height: 500,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
+                  ), 
+                ),
+               Positioned(
+                 bottom: 0,
+                 right: 0,
+                 child: Container(
+                   width: size.width * 0.9,
+                   height: 100,
+                   decoration: BoxDecoration(
+                     color: Theme.of(context).colorScheme.primary,
+                     borderRadius: BorderRadius.only(
+                       bottomLeft: Radius.circular(50),
+                       topLeft: Radius.circular(50)
+                     ),
+                     boxShadow: [
+                       BoxShadow(
+                         offset: Offset(0, 5),
+                         blurRadius: 50,
+                         color: Theme.of(context).colorScheme.onPrimary
+                          )
+                      ]
+                   ),
+                   alignment: Alignment.center,
+                   child:
+                   Text(
+                    "How to do it",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 50,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                 
+               ),
+             ],
+           ),
+         ),
+         SizedBox(height: 10),
+         Container(
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                     color: Theme.of(context).colorScheme.primary,
+                     borderRadius: BorderRadius.only(
+                       bottomLeft: Radius.circular(50),
+                       topLeft: Radius.circular(50),
+                       topRight: Radius.circular(50),
+                       bottomRight: Radius.circular(50)
+                     ),
+                ),
+                padding: const EdgeInsets.all(25.0),
+                child:
+                Text(
                   exercise.description,
                   textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 22.0),
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+          Container(
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                     color: Theme.of(context).colorScheme.secondaryVariant,
+                     borderRadius: BorderRadius.only(
+                       bottomLeft: Radius.circular(50),
+                       topLeft: Radius.circular(50),
+                       topRight: Radius.circular(50),
+                       bottomRight: Radius.circular(50)
+                     ),
+                ),
+                padding: const EdgeInsets.all(25.0),
+                child:
+                Text(
+                  "If you want further guidance visit WikiHow.",
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white
+                    ),
+                ),
+              )
+          
+       ],
+     )
     );
+    
+    
+    
+    
   }
 }
