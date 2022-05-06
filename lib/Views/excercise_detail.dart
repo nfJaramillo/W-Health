@@ -13,7 +13,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
 
      return Scaffold(
        
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: 
       ListView(
       children: <Widget>[
@@ -49,7 +49,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
                    width: size.width * 0.9,
                    height: 100,
                    decoration: BoxDecoration(
-                     color: Color(0xFF7086B2),
+                     color: Theme.of(context).colorScheme.primary,
                      borderRadius: BorderRadius.only(
                        bottomLeft: Radius.circular(50),
                        topLeft: Radius.circular(50)
@@ -58,7 +58,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
                        BoxShadow(
                          offset: Offset(0, 5),
                          blurRadius: 50,
-                         color: Color.fromARGB(255, 229, 229, 236).withOpacity(0.2)
+                         color: Theme.of(context).colorScheme.onPrimary
                           )
                       ]
                    ),
@@ -82,7 +82,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
          Container(
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                     color: Color(0xFF7086B2),
+                     color: Theme.of(context).colorScheme.primary,
                      borderRadius: BorderRadius.only(
                        bottomLeft: Radius.circular(50),
                        topLeft: Radius.circular(50),
@@ -103,7 +103,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
           Container(
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                     color: Color(0xFFF17105),
+                     color: Theme.of(context).colorScheme.secondaryVariant,
                      borderRadius: BorderRadius.only(
                        bottomLeft: Radius.circular(50),
                        topLeft: Radius.circular(50),
