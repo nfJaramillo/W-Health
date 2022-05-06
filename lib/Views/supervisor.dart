@@ -44,7 +44,7 @@ class _Supervisor extends State<Supervisor> {
           height: 60,
           color: Colors.black12,
           child: InkWell(
-            onTap: () => logOut(),
+            onTap: () => _showMyDialog(),
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Column(
@@ -251,8 +251,7 @@ class _Supervisor extends State<Supervisor> {
   }
 
   void logOut() async{
-     final prefs = await SharedPreferences.getInstance();
-      prefs.remove("user");
+    UserController.logOut(widget.user.coorporation);
     Navigator.pop(context);
   }
 
@@ -267,6 +266,7 @@ class _Supervisor extends State<Supervisor> {
       });
       showSnackBar("There is no internet connection and no cached data, please check your connection before proceding");
     } else {
+      showSnackBar("Updating data...");
       UserController.getTotalEmployees(widget.user.coorporation, this);
     }
     }
@@ -306,4 +306,38 @@ class _Supervisor extends State<Supervisor> {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
   }
+
+  Future<void> _showMyDialog() async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Log out'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text('By logging out, all your data will be deleted and you will have to login again with internet connection to use the app.'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text('Log out'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              logOut();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 }
