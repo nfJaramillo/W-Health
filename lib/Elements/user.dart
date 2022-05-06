@@ -23,6 +23,14 @@ class UserSupervisor extends User{
     super.coorporation = data['coorporation'];
     super.isSupervisor = data['isSupervisor'];
   }
+
+  Map<String, dynamic> toJson() => {
+  'name': name,
+  'email': email,
+  'coorporation': coorporation,
+  'isSupervisor': isSupervisor,
+  'lastSurvey': lastSurvey
+};
   
 }
 
@@ -41,5 +49,15 @@ class UserEmployee extends User{
     super.coorporation = data['coorporation'];
     super.isSupervisor = data['isSupervisor'];
   }
+
+  Map<String, dynamic> toJson() => {
+  'name': name,
+  'email': email,
+  'coorporation': coorporation,
+  'isSupervisor': isSupervisor,
+  'lastActiveBreak': lastActiveBreak,
+  'lastP_Exercise': lastP_Exercise,
+  'lastE_Survey': lastE_Survey
+};
 
 }

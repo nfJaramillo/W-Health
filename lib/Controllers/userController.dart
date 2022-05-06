@@ -8,11 +8,20 @@ class UserController  {
 
   static var loginView;
   
-  
 
-   static void logIn(String username, String password) {
+   static void logIn(String username, String password,  bool isReLogin) {
      try{
-       ModelUser.logIn(username,password);
+       ModelUser.logIn(username,password, isReLogin);
+     }
+     catch(e){
+        rethrow;
+     }
+    
+  }
+
+  static void getTotalEmployees(String coorporation, superv) {
+     try{
+       ModelUser.getTotalEmployees(coorporation, superv);
      }
      catch(e){
         rethrow;
