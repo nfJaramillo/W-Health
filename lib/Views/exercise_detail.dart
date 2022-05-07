@@ -1,9 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:w_health/Views/exercise.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:w_health/Elements/button_widget.dart';
+import 'package:w_health/Views/timer.dart';
 
 class ExerciseDetailsScreen extends StatelessWidget {
   final Exercise exercise;
+  static const maxSeconds = 60;
+  int seconds = maxSeconds;
+  Timer? timer;
 
   ExerciseDetailsScreen(this.exercise);
 
@@ -121,14 +128,19 @@ class ExerciseDetailsScreen extends StatelessWidget {
                     color: Colors.white
                     ),
                 ),
-              )
+              ),
+              SizedBox(height: 10),
+              ButtonWidget(text: 'Lets Do It!', onClicked: (){
+               Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TimerView()));
+
+            })
           
        ],
      )
-    );
-    
-    
-    
-    
+    );    
   }
+
 }
