@@ -8,7 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_health/Models/preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+
+void main()  {
     SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Color(0xFFFAFAFA),

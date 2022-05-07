@@ -1,4 +1,4 @@
-package com.example.w_health
+package com.uniandes.w_health
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "469128219708",
+    "project_id": "w-health-94518",
+    "storage_bucket": "w-health-94518.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469128219708:android:b1c7f2f76b66478aa54739",
+        "android_client_info": {
+          "package_name": "com.uniandes.w_health"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "469128219708-3a6i20hu6tb331f2mdh80a4qvstcrdro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoKazW8kBkex5EMOO9sfuSFrtmcOtJMFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469128219708-3a6i20hu6tb331f2mdh80a4qvstcrdro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "469128219708-ptdud9qlvaquocar9feirkl3b9jinvmp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.wHealth"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
