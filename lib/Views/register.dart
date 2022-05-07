@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -19,6 +22,16 @@ TextEditingController pswController = TextEditingController();
 TextEditingController corpoController = TextEditingController();
 
 class _Register extends State<Register> {
+  bool enabled = true;
+  var listener;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    listener = checkConnection();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,15 +170,19 @@ class _Register extends State<Register> {
 
         ElevatedButton(
           child: const Text("Sing up"),
-          onPressed: () => {
+          onPressed: () => { enabled ?
             register(nameController.text, emailController.text,
                 pswController.text, corpoController.text, _selected.name)
+                : null
           },
           style: ElevatedButton.styleFrom(
             textStyle: const TextStyle(fontSize: 20),
-            primary: Theme.of(context).colorScheme.primary,
+            primary: enabled ? Theme.of(context).colorScheme.primary : Colors.grey,
             minimumSize: const Size.fromHeight(50),
           ),
+        ),
+         const SizedBox(
+          height: 20,
         ),
       ],
     );
@@ -173,6 +190,12 @@ class _Register extends State<Register> {
 
   void register(String name, String email, String password, String corporation,
       String isSupervisor) async {
+    
+    if (!await InternetConnectionChecker().hasConnection) {
+      showSnackBar("Please check your connection");
+      return;
+         }
+
     if (name.isEmpty ||
         email.isEmpty ||
         password.isEmpty ||
@@ -229,14 +252,39 @@ class _Register extends State<Register> {
             const SnackBar(content: Text('Backend server error')));
       }
 
-
-
-
-
-
-
-
-      
     }
+  }
+
+  StreamSubscription<InternetConnectionStatus> checkConnection() {
+  
+    InternetConnectionChecker().checkInterval = const Duration(seconds: 3);
+    return InternetConnectionChecker().onStatusChange.listen((status) {
+  
+      switch (status) {
+        case InternetConnectionStatus.connected:
+        try{
+          setState(() {
+            enabled = true;
+          });
+        }
+        catch(e)
+        {}
+          break;
+        case InternetConnectionStatus.disconnected:
+        try{
+          setState(() {
+            enabled = false;
+          });
+        }
+        catch(e){}
+          break;
+      }
+    });
+  }
+
+  void showSnackBar(String message) {
+    context.loaderOverlay.hide();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 }

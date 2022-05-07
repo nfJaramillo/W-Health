@@ -57,7 +57,8 @@ class UserEmployee extends User{
   'isSupervisor': isSupervisor,
   'lastActiveBreak': lastActiveBreak,
   'lastP_Exercise': lastP_Exercise,
-  'lastE_Survey': lastE_Survey
+  'lastE_Survey': lastE_Survey,
+  'lastSurvey': ""
 };
 
 }

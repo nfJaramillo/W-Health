@@ -240,48 +240,44 @@ class _Supervisor extends State<Supervisor> {
             minimumSize: const Size.fromHeight(50),
           ),
         ),
+
+        const SizedBox(
+          height: 20,
+        ),
       ],
     );
   }
 
-  void reviewHealthSurveys() {
-    http.post(Uri.parse(
-        'https://w-health-backend.herokuapp.com/api/users/lastSurvey/' +
-            widget.user.email));
-  }
-
-  void logOut() async{
+  void logOut() {
     UserController.logOut(widget.user.coorporation);
     Navigator.pop(context);
   }
 
   void getTotalemployees() async {
-    Map<String, dynamic>? storedEmployees = await UserController.getTotalEmployeesLocal(widget.user.coorporation);
-    if(storedEmployees == null)
-    {
+    Map<String, dynamic>? storedEmployees =
+        await UserController.getTotalEmployeesLocal(widget.user.coorporation);
+    if (storedEmployees == null) {
       if (!await InternetConnectionChecker().hasConnection) {
-      setState(() {
-        totalEmployees = "do not tap";
-        loading = false;
-      });
-      showSnackBar("There is no internet connection and no cached data, please check your connection before proceding");
+        setState(() {
+          totalEmployees = "do not tap";
+          loading = false;
+        });
+        showSnackBar(
+            "There is no internet connection and no cached data, please check your connection before proceding");
+      } else {
+        showSnackBar("Updating data...");
+        UserController.getTotalEmployees(widget.user.coorporation, this);
+      }
     } else {
-      showSnackBar("Updating data...");
-      UserController.getTotalEmployees(widget.user.coorporation, this);
-    }
-    }
-    else{
       if (!await InternetConnectionChecker().hasConnection) {
-      setTotalEmployees(storedEmployees);
-      showSnackBar("There is no internet connection but cached data, data might be unupdated.");
-    } else {
-      setTotalEmployees(storedEmployees);
-      UserController.getTotalEmployees(widget.user.coorporation, this);
+        setTotalEmployees(storedEmployees);
+        showSnackBar(
+            "There is no internet connection but cached data, data might be unupdated.");
+      } else {
+        setTotalEmployees(storedEmployees);
+        UserController.getTotalEmployees(widget.user.coorporation, this);
+      }
     }
-
-    }
-    
-   
   }
 
   void setTotalEmployees(pEmployees) {
@@ -308,36 +304,48 @@ class _Supervisor extends State<Supervisor> {
   }
 
   Future<void> _showMyDialog() async {
-  return showDialog<void>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Log out'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: const <Widget>[
-              Text('By logging out, all your data will be deleted and you will have to login again with internet connection to use the app.'),
-            ],
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Log out'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text(
+                    'By logging out, all your data will be deleted and you will have to login again with internet connection to use the app.'),
+              ],
+            ),
           ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Cancel'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: const Text('Log out'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              logOut();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Log out'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                logOut();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void reviewHealthSurveys() async {
+    if (!await InternetConnectionChecker().hasConnection) {
+      showSnackBar("Please check your connection");
+      return;
+    }
+    http.post(Uri.parse(
+        'https://w-health-backend.herokuapp.com/api/users/lastSurvey/' +
+            widget.user.email));
+            showSnackBar("Data saved on backend");
+  }
 }
