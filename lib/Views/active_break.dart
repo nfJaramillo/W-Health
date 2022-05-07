@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:w_health/Elements/user.dart';
 import 'package:w_health/Views/exercise.dart';
-import 'package:w_health/Views/excercise_detail.dart';
+import 'package:w_health/Views/exercise_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
