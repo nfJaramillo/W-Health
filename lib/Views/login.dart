@@ -119,6 +119,10 @@ class _Login extends State<Login> {
                 enabled ? Theme.of(context).colorScheme.primary : Colors.grey,
             minimumSize: const Size.fromHeight(50),
           ),
+          
+        ),
+         const SizedBox(
+          height: 20,
         ),
       ],
     );
@@ -131,10 +135,8 @@ class _Login extends State<Login> {
       Map<String, dynamic> userData = jsonDecode(savedUser);
       var userSuper = UserSupervisor(userData);
       if (await InternetConnectionChecker().hasConnection) {
-        showSnackBar("There is internet connection");
         authenticate(userSuper.email, "", true);
       } else {
-        showSnackBar("There is no internet connection");
         if (userSuper.isSupervisor == 'yes') {
           authtenticated(userSuper);
         } else {

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:instant/instant.dart';
 
 class EmployeeDetail extends StatefulWidget {
   final Map<String, dynamic> employeeData;
@@ -96,7 +97,7 @@ class _EmployeeDetail extends State<EmployeeDetail> {
 
   String lastActiveBreak(pLast) {
     String ans = "";
-    DateTime dt = DateTime.parse(widget.employeeData["lastActiveBreak"]);
+    DateTime dt = DateTime.parse(widget.employeeData["lastActiveBreak"]).toLocal();
     ans = dt.day.toString() +
         "/" +
         dt.month.toString() +
