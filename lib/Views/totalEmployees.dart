@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'employeeDetail.dart';
 
 class TotalEmployees extends StatefulWidget {
   final Map<String, dynamic> totalEmployeesList;
@@ -13,7 +14,7 @@ class _TotalEmployees extends State<TotalEmployees> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: totalEmployeesStructure(),
+        body: SafeArea(child:totalEmployeesStructure() ),
         bottomNavigationBar: Container(
           height: 60,
           color: Colors.black12,
@@ -48,29 +49,34 @@ class _TotalEmployees extends State<TotalEmployees> {
                 ),
                 title: Row(
                   children: const [
-                    Expanded(
-                        child: Text("EMAIL")),
-                    Expanded(
-                        child: Text("NAME")),
+                    Expanded(child: Text("EMAIL")),
+                    Expanded(child: Text("NAME")),
                   ],
                 )),
-
           ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.blue,
-                child:
-                    Text(widget.totalEmployeesList['users'][index]["name"][0]),
-              ),
-              title: Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                          widget.totalEmployeesList['users'][index]["email"])),
-                  Expanded(
-                      child: Text(
-                          widget.totalEmployeesList['users'][index]["name"])),
-                ],
-              ))
+            leading: CircleAvatar(
+              backgroundColor: Colors.blue,
+              child: Text(widget.totalEmployeesList['users'][index]["name"][0]),
+            ),
+            title: Row(
+              children: [
+                Expanded(
+                    child: Text(
+                        widget.totalEmployeesList['users'][index]["email"])),
+                Expanded(
+                    child: Text(
+                        widget.totalEmployeesList['users'][index]["name"])),
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EmployeeDetail(widget.totalEmployeesList['users'][index]),
+                ),
+              );
+            },
+          )
         ]);
       },
     );

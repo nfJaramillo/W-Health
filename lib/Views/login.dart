@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -35,13 +36,13 @@ class _Login extends State<Login> {
   Widget build(BuildContext context) {
     UserController.setLoginView(this);
     return Scaffold(
-        body: Center(
+        body: SafeArea(child:Center(
       child: ListView(
         shrinkWrap: true,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: <Widget>[loginStructure()],
       ),
-    ));
+    ) ),);
   }
 
   Column loginStructure() {
@@ -49,10 +50,11 @@ class _Login extends State<Login> {
     TextEditingController pswController = TextEditingController();
     return Column(
       children: <Widget>[
-        const Text(
-          "Login",
-          style: TextStyle(fontSize: 50),
-        ),
+        CachedNetworkImage(
+        imageUrl: "https://i.ibb.co/0MS0WJm/Logo-W-Health.png",
+        placeholder: (context, url) => const CircularProgressIndicator(),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+     ),
         const SizedBox(
           height: 20,
         ),
