@@ -30,19 +30,19 @@ class _Login extends State<Login> {
     listener = checkConnection();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     UserController.setLoginView(this);
     return Scaffold(
-        body: SafeArea(child:Center(
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        children: <Widget>[loginStructure()],
-      ),
-    ) ),);
+      body: SafeArea(
+          child: Center(
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          children: <Widget>[loginStructure()],
+        ),
+      )),
+    );
   }
 
   Column loginStructure() {
@@ -51,10 +51,10 @@ class _Login extends State<Login> {
     return Column(
       children: <Widget>[
         CachedNetworkImage(
-        imageUrl: "https://i.ibb.co/0MS0WJm/Logo-W-Health.png",
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-     ),
+          imageUrl: "https://i.ibb.co/0MS0WJm/Logo-W-Health.png",
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
         const SizedBox(
           height: 20,
         ),
@@ -64,18 +64,20 @@ class _Login extends State<Login> {
             style: const TextStyle(fontSize: 20),
             children: <TextSpan>[
               TextSpan(
-                  text: 'Sing Up here',
+                  text: 'Sign Up here',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     decorationColor: Theme.of(context).colorScheme.primary,
                   ),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () { enabled?
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Register()),
-                      ).then((value) => listener.resume()) : null;
+                    ..onTap = () {
+                      enabled
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Register()),
+                            ).then((value) => listener.resume())
+                          : null;
                     }),
             ],
           ),
@@ -119,9 +121,8 @@ class _Login extends State<Login> {
                 enabled ? Theme.of(context).colorScheme.primary : Colors.grey,
             minimumSize: const Size.fromHeight(50),
           ),
-          
         ),
-         const SizedBox(
+        const SizedBox(
           height: 20,
         ),
       ],
@@ -158,7 +159,6 @@ class _Login extends State<Login> {
   StreamSubscription<InternetConnectionStatus> checkConnection() {
     InternetConnectionChecker().checkInterval = const Duration(seconds: 3);
     return InternetConnectionChecker().onStatusChange.listen((status) {
-  
       switch (status) {
         case InternetConnectionStatus.connected:
           setState(() {
@@ -176,21 +176,20 @@ class _Login extends State<Login> {
     });
   }
 
-  Future<void> authenticate(String username, String password, bool isReLogin) async {
-     if (await InternetConnectionChecker().hasConnection) {
-        try {
-      context.loaderOverlay.show();
-      UserController.logIn(username, password, isReLogin);
-    } catch (e) {
-      context.loaderOverlay.hide();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+  Future<void> authenticate(
+      String username, String password, bool isReLogin) async {
+    if (await InternetConnectionChecker().hasConnection) {
+      try {
+        context.loaderOverlay.show();
+        UserController.logIn(username, password, isReLogin);
+      } catch (e) {
+        context.loaderOverlay.hide();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    } else {
+      showSnackBar("Please check your connection");
     }
-     }
-     else{
-       showSnackBar("Please check your connection");
-     }
-   
   }
 
   void showSnackBar(String message) {
@@ -201,6 +200,11 @@ class _Login extends State<Login> {
 
   void authtenticated(User pUser) {
     context.loaderOverlay.hide();
+
+    setState(() {
+      emailController.clear();
+      pswController.clear();
+    });
     if (pUser.isSupervisor == 'yes') {
       listener.pause();
       Navigator.push(
