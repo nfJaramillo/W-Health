@@ -14,22 +14,22 @@ class _Personalized extends State<Personalized> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Personalized Routine") ,
+          title: const Text("Personalized Routine") ,
         ),
         body: Center(
           child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(Icons.location_on, size: 45.0, color: Colors.blue),
-            SizedBox(height: 10.0),
-            Text("Get user Location", style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 20.0,),
+            const Icon(Icons.location_on, size: 45.0, color: Colors.blue),
+            const SizedBox(height: 10.0),
+            const Text("Get user Location", style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20.0,),
             Text("Position: $locationMessage"),
             FlatButton(
               onPressed: (){getCurrentLocation();},
               color: Theme.of(context).colorScheme.primary, 
-              child: Text("Get Current Location", style: TextStyle(color: Colors.white,  ),))
+              child: const Text("Get Current Location", style: TextStyle(color: Colors.white,  ),))
             ],
           ),
         ), 
@@ -71,7 +71,6 @@ class _Personalized extends State<Personalized> {
     var lat = position.latitude;
     var long = position.longitude;
 
-    print(lat.toString() + long.toString());
     setState(() {
       locationMessage = "Latitude: $lat, Longitude: $long";
     });

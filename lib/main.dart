@@ -50,7 +50,7 @@ class Whealth extends  StatelessWidget {
           );
         }
 
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       });
     }
 
@@ -60,16 +60,14 @@ class Whealth extends  StatelessWidget {
   Future<PreferencesB> buildBloc() async{
     final prefs = await SharedPreferences.getInstance();
     final service = MyPreferencesService(prefs);
-    return PreferencesB(service, await service.get());
+    return PreferencesB(service, service.get());
   }
 }
 
 
 const ColorScheme _customColorScheme = ColorScheme(
   primary: Color(0xFF7086B2),
-  primaryVariant:  Color(0xFF454545),
   secondary:  Color(0xFF02C39A),
-  secondaryVariant:  Color(0xFFF17105),
   surface: Color(0xFF454545),
   background: Color(0xFFF4F4F4),
   error: Colors.red,

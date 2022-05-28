@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:w_health/Controllers/userController.dart';
 import 'package:w_health/Elements/user.dart';
 import 'package:w_health/Views/totalEmployees.dart';
@@ -32,7 +30,7 @@ class _Supervisor extends State<Supervisor> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: loading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : SafeArea(
                 child: ListView(
                   shrinkWrap: true,

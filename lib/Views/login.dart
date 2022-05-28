@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -19,16 +18,52 @@ class Login extends StatefulWidget {
   State<Login> createState() => _Login();
 }
 
-class _Login extends State<Login> {
+class _Login extends State<Login> with WidgetsBindingObserver{
   bool enabled = true;
   var listener;
+
+   
 
   @override
   void initState() {
     super.initState();
     checkIfUserExists();
     listener = checkConnection();
+    // Add the observer. 
+    WidgetsBinding.instance!.addObserver(this);
   }
+
+  @override
+  void dispose() {
+    // Remove the observer
+    WidgetsBinding.instance!.removeObserver(this);
+
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    // These are the callbacks
+    switch (state) {
+      case AppLifecycleState.resumed:
+         listener.resume();
+        break;
+      case AppLifecycleState.paused:
+         listener.pause();
+        break;
+        
+      case AppLifecycleState.inactive:
+        // widget is inactive
+        break;
+      
+      case AppLifecycleState.detached:
+        // widget is detached
+        break;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +85,7 @@ class _Login extends State<Login> {
     TextEditingController pswController = TextEditingController();
     return Column(
       children: <Widget>[
-        CachedNetworkImage(
-          imageUrl: "https://i.ibb.co/0MS0WJm/Logo-W-Health.png",
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
+       Image.asset('assets/images/Logo.png'),
         const SizedBox(
           height: 20,
         ),
