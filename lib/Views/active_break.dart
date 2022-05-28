@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:w_health/Elements/user.dart';
 import 'package:w_health/Views/exercise.dart';
 import 'package:w_health/Views/exercise_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,10 +11,10 @@ class ActiveBreak extends StatelessWidget {
   {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Default Exercises'),
+          title: const Text('Default Exercises'),
         ),
         body: ListView.builder(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             itemCount: exerciseList.length,
             itemBuilder: (context, index) {
               Exercise exercise = exerciseList[index];
@@ -28,7 +27,7 @@ class ActiveBreak extends StatelessWidget {
                     width: 50,
                     height: 50
                   ),
-                  trailing: Icon(Icons.arrow_forward_rounded),
+                  trailing: const Icon(Icons.arrow_forward_rounded),
                   onTap: () {
                     Navigator.push(
                         context,

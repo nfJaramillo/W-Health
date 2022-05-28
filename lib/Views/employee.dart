@@ -3,7 +3,6 @@ import 'package:w_health/Views/personalized.dart';
 import 'package:w_health/Views/active_break.dart';
 import 'package:w_health/Elements/user.dart';
 import 'package:http/http.dart' as http;
-import 'dart:io';
 
 import 'package:w_health/Views/settings.dart';
 
@@ -36,13 +35,13 @@ class _Employee extends State<Employee> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: Icon(Icons.menu),
+          leading: const Icon(Icons.menu),
           actions: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
             ),
             IconButton(
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
               onPressed: () {goSettings();},
               ),
           ],
@@ -84,21 +83,21 @@ class _Employee extends State<Employee> {
           Text(
             widget.user.name,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 50),
+            style: const TextStyle(fontSize: 50),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
          Icon(
                 Icons.groups,
                 color: Theme.of(context).colorScheme.primary,
                 size: 200.0,
                 semanticLabel: 'Icon for active employees',
               ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Text(
               'You should take an active break in ' + calculateTime().toString() + ' minutes',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           MaterialButton(
             elevation: 10.0,
             minWidth: 360.0,
@@ -108,7 +107,7 @@ class _Employee extends State<Employee> {
               borderRadius: BorderRadius.circular(8.0),
             ),
             onPressed: () { lastActiveBreakTime(); },
-            child: Text(
+            child: const Text(
               'Do Active Break',
               style: TextStyle(
                 color: Colors.white,
@@ -117,7 +116,7 @@ class _Employee extends State<Employee> {
               ),
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           MaterialButton(
             elevation: 10.0,
             minWidth: 360.0,
@@ -127,7 +126,7 @@ class _Employee extends State<Employee> {
               borderRadius: BorderRadius.circular(8.0),
             ),
             onPressed: () { lastPersonalizedExercise(); },
-            child: Text(
+            child: const Text(
               'Personalized Exercise',
               style: TextStyle(
                 color: Colors.white,
@@ -136,7 +135,7 @@ class _Employee extends State<Employee> {
               ),
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           MaterialButton(
             elevation: 10.0,
             minWidth: 360.0,
@@ -146,7 +145,7 @@ class _Employee extends State<Employee> {
               borderRadius: BorderRadius.circular(8.0),
             ),
             onPressed: () { lastHealthSurvey(); },
-            child: Text(
+            child: const Text(
               'Health Survey',
               style: TextStyle(
                 color: Colors.white,

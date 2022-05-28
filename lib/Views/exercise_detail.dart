@@ -24,11 +24,11 @@ class ExerciseDetailsScreen extends StatelessWidget {
       body: 
       ListView(
       children: <Widget>[
-         Container(
+         SizedBox(
            height: size.height * 0.4,
            child: Stack(
              children: <Widget>[
-               Container(
+               SizedBox(
                  height: size.height * 0.4 - 50,
                  child: 
                  CachedNetworkImage(
@@ -37,7 +37,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
                     height: 300,
                     decoration: BoxDecoration(
                       borderRadius: 
-                        BorderRadius.only(bottomLeft: Radius.circular(50)),
+                        const BorderRadius.only(bottomLeft: Radius.circular(50)),
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: imageProvider
@@ -46,7 +46,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
                 ),
                 progressIndicatorBuilder: (context, url, downloadProgress) => 
                     CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
                   ), 
                 ),
                Positioned(
@@ -57,13 +57,13 @@ class ExerciseDetailsScreen extends StatelessWidget {
                    height: 100,
                    decoration: BoxDecoration(
                      color: Theme.of(context).colorScheme.primary,
-                     borderRadius: BorderRadius.only(
+                     borderRadius: const BorderRadius.only(
                        bottomLeft: Radius.circular(50),
                        topLeft: Radius.circular(50)
                      ),
                      boxShadow: [
                        BoxShadow(
-                         offset: Offset(0, 5),
+                         offset: const Offset(0, 5),
                          blurRadius: 50,
                          color: Theme.of(context).colorScheme.onPrimary
                           )
@@ -71,7 +71,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
                    ),
                    alignment: Alignment.center,
                    child:
-                   Text(
+                   const Text(
                     "How to do it",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -85,12 +85,12 @@ class ExerciseDetailsScreen extends StatelessWidget {
              ],
            ),
          ),
-         SizedBox(height: 10),
+         const SizedBox(height: 10),
          Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                      color: Theme.of(context).colorScheme.primary,
-                     borderRadius: BorderRadius.only(
+                     borderRadius: const BorderRadius.only(
                        bottomLeft: Radius.circular(50),
                        topLeft: Radius.circular(50),
                        topRight: Radius.circular(50),
@@ -102,16 +102,16 @@ class ExerciseDetailsScreen extends StatelessWidget {
                 Text(
                   exercise.description,
                   textAlign: TextAlign.justify,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20.0,
                     color: Colors.white),
                 ),
               ),
           Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                     color: Theme.of(context).colorScheme.secondaryVariant,
-                     borderRadius: BorderRadius.only(
+                     color: Theme.of(context).colorScheme.secondaryContainer,
+                     borderRadius: const BorderRadius.only(
                        bottomLeft: Radius.circular(50),
                        topLeft: Radius.circular(50),
                        topRight: Radius.circular(50),
@@ -120,7 +120,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(25.0),
                 child:
-                Text(
+                const Text(
                   "If you want further guidance visit WikiHow.",
                   textAlign: TextAlign.justify,
                   style: TextStyle(
@@ -129,7 +129,7 @@ class ExerciseDetailsScreen extends StatelessWidget {
                     ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ButtonWidget(text: 'Lets Do It!', onClicked: (){
                Navigator.push(
                         context,

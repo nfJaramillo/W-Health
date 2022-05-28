@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:http/http.dart' as http;
 
 part 'preferences.g.dart';
 

@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_health/Elements/preferences_bloc.dart';
 import 'package:w_health/Models/preferences.dart';
 
@@ -12,7 +10,7 @@ class SettingsScreen extends StatelessWidget {
       builder: (context, preferences){
         return Scaffold(
           appBar: AppBar(
-            title: Text("Settings"),
+            title: const Text("Settings"),
             automaticallyImplyLeading: true,
           ),
         body: ListView(
@@ -32,7 +30,7 @@ class SettingsScreen extends StatelessWidget {
         child: Column(
           children: [
             RadioListTile<ThemeMode>(
-              title: Text("Dark Mode"),
+              title: const Text("Dark Mode"),
               value: ThemeMode.dark, 
               groupValue: preferences.themeMode, 
               onChanged: (s) {
@@ -42,7 +40,7 @@ class SettingsScreen extends StatelessWidget {
               }
               ),
             RadioListTile<ThemeMode>(
-              title: Text("Light Mode"),
+              title: const Text("Light Mode"),
               value: ThemeMode.light, 
               groupValue: preferences.themeMode, 
               onChanged: (s) {
@@ -52,7 +50,7 @@ class SettingsScreen extends StatelessWidget {
               }
               ),
             RadioListTile<ThemeMode>(
-              title: Text("System"),
+              title: const Text("System"),
               value: ThemeMode.system, 
               groupValue: preferences.themeMode, 
               onChanged: (s) {
