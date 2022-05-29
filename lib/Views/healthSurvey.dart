@@ -9,10 +9,11 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:localstore/localstore.dart';
 
 class HealthSurvey extends StatefulWidget {
+  
   const HealthSurvey({Key? key}) : super (key:key);
-
   @override
   State<HealthSurvey> createState() => _HealthSurvey();
 }
@@ -20,7 +21,7 @@ class HealthSurvey extends StatefulWidget {
 class _HealthSurvey extends State<HealthSurvey> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  late SharedPreferences prefs;
   bool enabled = true;
   var listener;
 
@@ -30,6 +31,11 @@ class _HealthSurvey extends State<HealthSurvey> {
   String _sympthoms = "";
   String _comments = "";
 
+
+  getSharedPreferences () async
+  {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   void initState() {
@@ -185,8 +191,8 @@ class _HealthSurvey extends State<HealthSurvey> {
                     if (!_formKey.currentState!.validate()) {
                       return;
                     }
-
                     _formKey.currentState!.save();
+                    saveValuesInPrefs();
 
                   
                     //aqui 
@@ -226,13 +232,28 @@ class _HealthSurvey extends State<HealthSurvey> {
     });
   }
 
+  saveValuesInPrefs () async
+  {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString("stressLvl", _stressLvl);
+    prefs.setString("jobDifficulty", _jobDifficulty);
+    prefs.setString("schRespected", _schRespected);
+    prefs.setString("sympthoms", _sympthoms);
+    prefs.setString("comments", _comments);
+  }
+
   // void send() async{
   //  if (!await InternetConnectionChecker().hasConnection) {
   //     showSnackBar("Please check your connection");
   //     return;
   //   }
+  //     final data = json.encode({'sent': true});
+  //     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
 
-  //    hs =
-
+  // var url = Uri.parse('https://w-health-backend.herokuapp.com/api/surveys/' + widget.employeeData["_id"]);
+  // await http.put(url, headers: headers, body: data);
+  // showSnackBar ("");
+  // Navigator.pop(context);
+    
   // }
 }
