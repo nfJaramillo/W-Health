@@ -32,6 +32,10 @@ class UserController  {
     return await ModelUser.getTotalEmployeesLocal(coorporation);
   }
 
+    static Future<Map<String, dynamic>?> getTotalSurveysLocal(coorporation) async {
+    return await ModelUser.getSurveysLocal(coorporation);
+  }
+
   static void logOut(coorporation) async {
     return ModelUser.logOut(coorporation);
   }
@@ -46,6 +50,10 @@ class UserController  {
 
   static void authtenticated(pUser){
     loginView.authtenticated(pUser);
+  }
+
+  static void updateSurveys(pCorp){
+
   }
 
 

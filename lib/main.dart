@@ -73,7 +73,7 @@ const ColorScheme _customColorScheme = ColorScheme(
   error: Colors.red,
   onPrimary: Colors.white,
   onSecondary: Colors.black,
-  onSurface: Colors.white,
+  onSurface: Color(0xFF7086B2),
   onBackground: Colors.black,
   onError: Colors.white,
   brightness: Brightness.light,
