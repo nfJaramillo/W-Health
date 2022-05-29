@@ -10,6 +10,7 @@ class ModelUser {
   static User? user;
   static final db = Localstore.instance;
   static const id="1a8wn3aw1";
+  static const id2="1a8wn3aw2";
 
   static String backendUri =
       "https://w-health-backend.herokuapp.com/api/users/";
@@ -81,6 +82,11 @@ class ModelUser {
     http
         .get(Uri.parse(uri))
         .then((response) => getTotalEmployeesResponse(response, superv,coorporation));
+
+        uri = 'https://w-health-backend.herokuapp.com/api/surveys/';
+    http
+        .get(Uri.parse(uri))
+        .then((response) => getSurveys(response, superv,coorporation));
   }
 
   static Future<void> getTotalEmployeesResponse(response, superv,coorporation)  async {
@@ -103,8 +109,31 @@ class ModelUser {
         return await db.collection(coorporation).doc(id).get();
   }
 
+  static Future<void> getSurveys(response, superv,coorporation)  async {
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      if (response.body.isNotEmpty) {
+        Map<String, dynamic> employees = jsonDecode(response.body);
+        db.collection(coorporation).doc(id2).set(employees);
+        superv.setSurveys(employees);
+      }
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw ("Backend server error");
+    }
+  }
+
+  
+
+  static Future<Map<String, dynamic>?> getSurveysLocal(coorporation) async {
+        return await db.collection(coorporation).doc(id2).get();
+  }
+
   static void logOut(coorporation)  {
     SharedPreferences.getInstance().then((value) => value.remove("user"));
     db.collection(coorporation).doc(id).delete();
+    db.collection(coorporation).doc(id2).delete();
   }
 }

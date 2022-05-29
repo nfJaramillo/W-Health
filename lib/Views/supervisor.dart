@@ -6,6 +6,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:w_health/Controllers/userController.dart';
 import 'package:w_health/Elements/user.dart';
 import 'package:w_health/Views/totalEmployees.dart';
+import 'package:w_health/Views/reviewSurveys.dart';
 
 class Supervisor extends StatefulWidget {
   final UserSupervisor user;
@@ -17,6 +18,7 @@ class Supervisor extends StatefulWidget {
 
 class _Supervisor extends State<Supervisor> {
   Map<String, dynamic> totalEmployeesList = {};
+  Map<String, dynamic> surveys = {};
   String totalEmployees = '';
   bool loading = true;
 
@@ -231,7 +233,7 @@ class _Supervisor extends State<Supervisor> {
 
         ElevatedButton(
           child: const Text("Review health surveys"),
-          onPressed: () => {reviewHealthSurveys()},
+          onPressed: () => {loadReviewSurveysView()},
           style: ElevatedButton.styleFrom(
             textStyle: const TextStyle(fontSize: 20),
             primary: Theme.of(context).colorScheme.primary,
@@ -245,6 +247,7 @@ class _Supervisor extends State<Supervisor> {
       ],
     );
   }
+  
 
   void logOut() {
     UserController.logOut(widget.user.coorporation);
@@ -254,7 +257,9 @@ class _Supervisor extends State<Supervisor> {
   void getTotalemployees() async {
     Map<String, dynamic>? storedEmployees =
         await UserController.getTotalEmployeesLocal(widget.user.coorporation);
-    if (storedEmployees == null) {
+    Map<String, dynamic>? storedSurveys =
+        await UserController.getTotalSurveysLocal(widget.user.coorporation);
+    if (storedEmployees == null ||storedSurveys == null ) {
       if (!await InternetConnectionChecker().hasConnection) {
         setState(() {
           totalEmployees = "do not tap";
@@ -269,10 +274,12 @@ class _Supervisor extends State<Supervisor> {
     } else {
       if (!await InternetConnectionChecker().hasConnection) {
         setTotalEmployees(storedEmployees);
+        setSurveys(storedSurveys);
         showSnackBar(
             "There is no internet connection but cached data, data might be unupdated.");
       } else {
         setTotalEmployees(storedEmployees);
+        setSurveys(storedSurveys);
         UserController.getTotalEmployees(widget.user.coorporation, this);
       }
     }
@@ -286,12 +293,29 @@ class _Supervisor extends State<Supervisor> {
     });
   }
 
+   void setSurveys(pSurveys) {
+    setState(() {
+      surveys = pSurveys;
+      loading = false;
+    });
+  }
+
+
   void loadTotalEmployeesView() {
     //context.loaderOverlay.show();
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => TotalEmployees(totalEmployeesList)));
+    //context.loaderOverlay.hide();
+  }
+
+  void loadReviewSurveysView() {
+    //context.loaderOverlay.show();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ReviewSurveys(surveys)));
     //context.loaderOverlay.hide();
   }
 
