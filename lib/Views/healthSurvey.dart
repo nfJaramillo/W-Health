@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -5,7 +6,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HealthSurvey extends StatefulWidget {
 
@@ -16,11 +17,11 @@ class HealthSurvey extends StatefulWidget {
 }
 
 class _HealthSurvey extends State<HealthSurvey> {
-
+  String imageUrl = "https://upload.wikimedia.org/wikipedia/commons/1/16/Background_Image.jpg";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late SharedPreferences prefs;
+  Future<void> myFuture = Future.value();
   bool enabled = true;
-  var listener;
 
   String _stressLvl = "";
   String _jobDifficulty = "";
@@ -150,11 +151,18 @@ class _HealthSurvey extends State<HealthSurvey> {
 
     @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FutureBuilder<void>(
+      future: myFuture,
+      builder: (context, snapshot){
+      return Scaffold(
       appBar: AppBar(title: Text("Health Survey")),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(24),
+          decoration:  BoxDecoration(
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(imageUrl),
+              fit: BoxFit.cover),
+          ),
           child: Form(
             key: _formKey,
             child: Column(
@@ -197,7 +205,8 @@ class _HealthSurvey extends State<HealthSurvey> {
                       return;
                     }
                     _formKey.currentState!.save();
-                    saveValuesInPrefs();
+                    createIsolateCallback(context, snapshot);
+                    computePrefsOnIsolate();
                     if (!await InternetConnectionChecker().hasConnection) {
                         showSnackBar("Please check your connection");
                         return;
@@ -212,7 +221,11 @@ class _HealthSurvey extends State<HealthSurvey> {
         ),
       ),
     );
+
+      }
+    );
   }
+    
 
 
   void showSnackBar(String message) {
@@ -220,6 +233,22 @@ class _HealthSurvey extends State<HealthSurvey> {
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
+  VoidCallback? createIsolateCallback(
+    BuildContext context, AsyncSnapshot snapshot) {
+  if (snapshot.connectionState == ConnectionState.done) {
+    return () {
+      setState(() {
+        myFuture = computePrefsOnIsolate();
+      });
+    };
+  } else {
+    return null;
+  }
+}
+
+Future<int> computePrefsOnIsolate() async {
+     return await compute(saveValuesInPrefs(), 40);
+  }
 
 
   saveValuesInPrefs () async
