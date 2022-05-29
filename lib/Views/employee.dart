@@ -10,11 +10,12 @@ import 'package:w_health/Views/settings.dart';
 
 
 class Employee extends StatefulWidget {
+  
 
   final UserEmployee user;
   
   const Employee(this.user, {Key? key}) : super(key: key);
- 
+  
   
 
   @override 
@@ -184,7 +185,7 @@ class _Employee extends State<Employee> {
     Navigator.push(
       context, 
       MaterialPageRoute(
-        builder: (context) => HealthSurvey())
+        builder: (context) => HealthSurvey(widget.user.toJson()))
       );
   }
   void goActiveBreak(){

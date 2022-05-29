@@ -3,17 +3,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:localstore/localstore.dart';
+
 
 class HealthSurvey extends StatefulWidget {
-  
-  const HealthSurvey({Key? key}) : super (key:key);
+
+  final Map<String, dynamic> employeeData;
+  const HealthSurvey(this.employeeData, {Key? key}) : super (key:key);
   @override
   State<HealthSurvey> createState() => _HealthSurvey();
 }
@@ -40,7 +37,6 @@ class _HealthSurvey extends State<HealthSurvey> {
   @override
   void initState() {
     super.initState();
-    listener = checkConnection(); 
   }
 
   Widget _buildComments() {
@@ -166,19 +162,28 @@ class _HealthSurvey extends State<HealthSurvey> {
               children: <Widget>[
                 _buildStreesLvl(),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 _buildJobDifficulty(),
                 const SizedBox(
-                  height: 30,
+                  height: 50,
+                ),
+                Text(
+                  "For the following two questions answer: 'Yes' or 'No'",  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0,)
+                ),
+                const SizedBox(
+                  height: 50,
                 ),
                 _buildSchRespected(),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 _buildSympthoms(),
                 const SizedBox(
-                  height: 30,
+                  height: 50,
+                ),
+                Text(
+                  "-----------------------------------------",  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0,)
                 ),
                 _buildComments(),
                 SizedBox(height: 100),
@@ -187,15 +192,18 @@ class _HealthSurvey extends State<HealthSurvey> {
                     'Submit',
                     style: TextStyle(color: Colors.blue, fontSize: 16),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (!_formKey.currentState!.validate()) {
                       return;
                     }
                     _formKey.currentState!.save();
                     saveValuesInPrefs();
-
-                  
-                    //aqui 
+                    if (!await InternetConnectionChecker().hasConnection) {
+                        showSnackBar("Please check your connection");
+                        return;
+                        }
+                    send();
+                    showSnackBar ("Data was saved succesfully.");
                   },
                 )
               ],
@@ -212,25 +220,7 @@ class _HealthSurvey extends State<HealthSurvey> {
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
-  StreamSubscription<InternetConnectionStatus> checkConnection() {
-    InternetConnectionChecker().checkInterval = const Duration(seconds: 3);
-    return InternetConnectionChecker().onStatusChange.listen((status) {
-      switch (status) {
-        case InternetConnectionStatus.connected:
-          setState(() {
-            enabled = true;
-          });
-          showSnackBar("There is internet connection");
-          break;
-        case InternetConnectionStatus.disconnected:
-          setState(() {
-            enabled = false;
-          });
-          showSnackBar("There is no internet connection");
-          break;
-      }
-    });
-  }
+
 
   saveValuesInPrefs () async
   {
@@ -242,18 +232,13 @@ class _HealthSurvey extends State<HealthSurvey> {
     prefs.setString("comments", _comments);
   }
 
-  // void send() async{
-  //  if (!await InternetConnectionChecker().hasConnection) {
-  //     showSnackBar("Please check your connection");
-  //     return;
-  //   }
-  //     final data = json.encode({'sent': true});
-  //     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+  void send() async{
+      final data = json.encode({'survey': true});
+      final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
 
-  // var url = Uri.parse('https://w-health-backend.herokuapp.com/api/surveys/' + widget.employeeData["_id"]);
-  // await http.put(url, headers: headers, body: data);
-  // showSnackBar ("");
-  // Navigator.pop(context);
+  var url = Uri.parse('https://w-health-backend.herokuapp.com/api/surveys/' + widget.employeeData["_id"]);
+  await http.put(url, headers: headers, body: data);
+  Navigator.pop(context);
     
-  // }
+  }
 }

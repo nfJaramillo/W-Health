@@ -59,6 +59,8 @@ class UserEmployee extends User{
   'lastP_Exercise': lastP_Exercise,
   'lastE_Survey': lastE_Survey,
   'lastSurvey': ""
-};
+  };
+
+  
 
 }
