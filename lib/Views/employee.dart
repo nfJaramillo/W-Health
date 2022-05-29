@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:w_health/Views/healthsurvey.dart';
 import 'package:w_health/Views/personalized.dart';
 import 'package:w_health/Views/active_break.dart';
 import 'package:w_health/Elements/user.dart';
@@ -179,6 +180,13 @@ class _Employee extends State<Employee> {
       );
   }
 
+  void goHealthSurvey(){
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => HealthSurvey())
+      );
+  }
   void goActiveBreak(){
     Navigator.push(
       context, 
@@ -255,6 +263,7 @@ class _Employee extends State<Employee> {
 
   void lastHealthSurvey(){
     http.post(Uri.parse('https://w-health-backend.herokuapp.com/api/users/lastE_Survey/'+widget.user.email));
+    goHealthSurvey();
   }
 
   
