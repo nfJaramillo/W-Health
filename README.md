@@ -1,1 +1,8 @@
-This is the repository for the Fluter implementation of W-Health
+# General Description
+
+w-Health allows companies to assure the well-being of their employees while at the same time guaranteeing top productivity.
+What makes our app different from other solutions like Ceridian or SafetyTek is that it is specially designed to allow companies to track employees' acive breaks, health status and sick leaves inside the company by generating reports, analyzing data and even making predictions based on historical data. On the side of the employee the app will not only be a reminder for taking breaks, it will also generate routine recommendations based on what they like, the job they do and let every individual customize their workout.
+
+There will be 2 roles in our application. The employee role is the most common one. An employee will have access to features like a to-do list filled with job related tasks, and a set of active breaks routines predetermined by the app or custimized by the user. The employer role will have access to information about the employees under his watch. The user will be able to check the progress of his employees on their respective tasks and monitor the amount and intensity of active pauses done by them. The employer can also generate reports regarding the work related information of the employees aswell as health related information. The data manager user will have access to plenty of data presented in an organized and interactive way aabout amount of sick leaves in a given company, mean time between active breaks, in which business sectors employees are more likely to get a sick leave, etc.
+
+For more info: https://gitlab.com/isis3510_202010_team151/wiki/-/wikis/Home
